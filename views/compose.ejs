@@ -1,0 +1,31 @@
+<%- include("partials/header"); -%>
+
+<section class="title up">
+  <div class="bgpurple">
+    <h1>Compose</h1>
+  </div>
+  <form class="" action="/compose" method="post">
+    <div class="form-group">
+      <!-- PINK BOX -->
+      <div class="bgpink">
+        <label class="label">Title</label>
+        <input class="form-control" type="text" name="postTitle" />
+      </div>
+      <!-- PINK BOX -->
+      <div class="bgpink">
+        <label class="label">Content</label>
+        <textarea
+          class="form-control"
+          name="postBody"
+          rows="5"
+          cols="30"
+        ></textarea>
+      </div>
+    </div>
+    <button class="btn btn-warning btnx" type="submit" name="button">
+      Publish
+    </button>
+  </form>
+</section>
+
+<%- include("partials/footer"); -%>
