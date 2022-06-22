@@ -1,4 +1,3 @@
-
 //jshint esversion:6
 
 const express = require("express");
@@ -6,9 +5,11 @@ const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const _ = require("lodash"); //no role of lowdash when working with db
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 
-const homeContent = "Welcome to MyReads! Write jist of books you've read and keep track of learnings from the books. You can make list of books to read or maybe bookmark them and further compile your thoughts here to enhance your book reading and learning experience!";
+const homeContent = "Welcome to MyReads! Write gist of books you've read and keep track of learnings from the books. You can make list of books to read or maybe bookmark them and further compile your thoughts here to enhance your book reading and learning experience!<br/>Your personal blogs made from Compose section will be displayed here.";
 
 const app = express();
 
@@ -79,20 +80,35 @@ app.post("/compose", function(req, res){
 app.get("/posts/:postId", function(req, res){
 
   //CAN'T USE LOWECASE-LODASH HERE; coz earlier it was Name here but now we are calling by ID!!
-const requestedBookId = req.params.bookId;
-
-  Blog.findOne({_id: requestedBookId}, function(err, foundResults){
-    res.render("post", {
+const requestedBookId = req.params.postId;
+ 
+    Blog.findOne({ _id: requestedBookId }, function (err, foundResults) {
+     
+      res.render("post", {
       title: foundResults.title,
-      content: foundResults.content
+      content: foundResults.content,
+      bookId: foundResults._id
     });
   });
 
 });
 
+app.post('/deleteblog', function (req, res) {
+    let blogId = req.body.blogbtn;
+    let flag = req.body.flag;
+    if (flag==="1") {
+    Blog.findByIdAndRemove(blogId, function (err) {
+        // console.log("deleted");
+        if (!err) {
+            res.redirect("/blogs");
+        }
+    });  
+    } else {
+        res.redirect("/posts/"+ blogId);
+    }
+});
 
 // TODOLIST
-
 //  Items Schema
 const itemsSchema = {
     name: String
@@ -102,10 +118,10 @@ const Item = mongoose.model("Item", itemsSchema);
 
 //creating document from the MODEL
 const item1 = new Item({
-    name: "Make your personel book list",
+    name: "Make your personal book list",
 });
 const item2 = new Item({
-    name: "Use checkboxe and button to edit list",
+    name: "Use checkbox and button to edit list",
 });
 const item3 = new Item({
     name: "Make multiple list with different titles!",

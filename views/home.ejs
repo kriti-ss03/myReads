@@ -3,12 +3,14 @@
   <section class="title">
     <div class="bgpurple shadow">
       <h1>Blogs</h1>
-      <p><%= startingContent %></p>
+      <p><%- startingContent %></p>
     </div>
 
     <% posts.forEach(function(post){ %>
     <div class="bgpink shadow">
       <h1><%=post.title%></h1>
+      <!-- As entire conetnt is not visible so split length will vary so to ease out -->
+      <% post.content=post.content.replaceAll('**', ' '); %>
       <p>
         <%=post.content.substring(0, 400) + " ..."%>
         <a href="/posts/<%=post._id%>">Read More</a>

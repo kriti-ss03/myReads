@@ -1,26 +1,64 @@
 <%- include("partials/header"); -%>
 <section class="title">
+   <form action="/deleteblog" method="post">
   <div class="bgpurple row shadow">
     <!-- <div class="row"> -->
-    <div class="col-lg-10 align-self-middle">
+    <div class="col-lg-10 align-self-bottom" style="margin-top:100px;">
       <h1 style="font-size: 4rem"><%=title%></h1>
     </div>
     <div class="col-lg-2">
       <img style="width: 200px" src="/img/book.png" />
     </div>
   </div>
-  <!-- 
-  <table class="bgpurple" style="width: 100%">
+  
+  <!-- <table class="bgpurple" style="width: 100%">
     <tbody>
       <tr>
-        <td class="align-bottom"><h1></h1></td>
+        <td class="align-text-bottom"><h1>JH POTTER</h1></td>
         <td><img style="width: 200px" src="/img/book.png" /></td>
       </tr>
     </tbody>
   </table> -->
 
-  <div class="bgpink shadow">
-    <p><%=content%></p>
+  <div class="bgpink shadow content">
+    <% content=content.replaceAll('- ', '<br />'+'• '); %>
+     <% content=content.replaceAll('//', '<br />'); %>
+    <% let k=content.split("**").length - 1%>
+ <% for(let i=0; i<k;i++){ %>
+ <%  if(!(i%2 === 0)){ %>
+  <% content=content.replace('**','</b>'); %>
+  <% }else{ %>
+    <%  content=content.replace('**','<b>'); %>
+   <% }%>
+ <% } %>
+
+    <p><%- content %></p>
   </div>
+  <input type="hidden" name="flag" id="check" placeholder="status" />
+   <button class="btn btn-lg btn-warning btn-front" onClick="sure()" name="blogbtn" value="<%= bookId %>">
+      Delete
+    </button>
+ 
+ 
+   
+  </form>
+  
+   
 </section>
+
 <%- include("partials/footer"); -%>
+
+<script>
+  let bgpink=docume.querySelector(".bgpink");
+  function sure(){
+      let flag;
+ if (confirm("Delete this book-blog? Press Cancel to terminate the step!")) { 
+  flag = "1"; 
+} else { 
+  flag = "0"; 
+}
+
+document.querySelector("#check").value = flag;
+}
+
+</script>
