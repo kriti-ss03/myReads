@@ -1,6 +1,10 @@
 <%- include("partials/header"); -%>
 <section class="title">
-   <form action="/deleteblog" method="post">
+
+ 
+
+  <form action="/deleteblog" method="post">
+
   <div class="bgpurple row shadow">
     <!-- <div class="row"> -->
     <div class="col-lg-10 align-self-bottom" style="margin-top:100px;">
@@ -34,14 +38,15 @@
 
     <p><%- content %></p>
   </div>
+  
   <input type="hidden" name="flag" id="check" placeholder="status" />
+
    <button class="btn btn-lg btn-warning btn-front" onClick="sure()" name="blogbtn" value="<%= bookId %>">
       Delete
     </button>
+    
+   </form>
  
- 
-   
-  </form>
   
    
 </section>
@@ -49,7 +54,7 @@
 <%- include("partials/footer"); -%>
 
 <script>
-  let bgpink=docume.querySelector(".bgpink");
+  // let bgpink=document.querySelector(".bgpink");
   function sure(){
       let flag;
  if (confirm("Delete this book-blog? Press Cancel to terminate the step!")) { 

@@ -98,7 +98,7 @@ app.post('/deleteblog', function (req, res) {
     let flag = req.body.flag;
     if (flag==="1") {
     Blog.findByIdAndRemove(blogId, function (err) {
-        // console.log("deleted");
+        console.log("deleted");
         if (!err) {
             res.redirect("/blogs");
         }
@@ -107,6 +107,26 @@ app.post('/deleteblog', function (req, res) {
         res.redirect("/posts/"+ blogId);
     }
 });
+
+// app.post('/updateblog', function (req, res) {
+//     let blogId = req.body.updbtn;
+//     console.log(blogId);
+    
+//   Blog.findOne({ _id: blogId }, function (err, foundResults) {
+     
+//       console.log(foundResults);
+//     //   res.render("compose", {
+//     //   postTitle: foundResults.title,
+//     //   postContent: foundResults.content
+//     // //   bookId: foundResults._id
+//     // });
+//   });
+
+
+// });
+
+
+
 
 // TODOLIST
 //  Items Schema
@@ -237,6 +257,6 @@ app.post('/delete', function (req, res) {
     }
 });
 
-app.listen(3020, function() {
-  console.log("Server started on port 3020");
+app.listen(3000, function() {
+  console.log("Server started on port 3000");
 });

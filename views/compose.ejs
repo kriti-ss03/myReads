@@ -1,13 +1,13 @@
 <%- include("partials/header"); -%>
 
 <section class="title up">
-  <div class="bgpurple">
+  <div class="bgpurple shadow">
     <h1>Compose</h1>
   </div>
   <form class="" action="/compose" method="post">
     <div class="form-group">
       <!-- PINK BOX -->
-      <div class="bgpink">
+      <div class="bgpink shadow">
         <label class="label">Title</label>
         <input
           class="form-control"
@@ -15,20 +15,20 @@
           name="postTitle"
           placeholder="Book Name"
         />
-      </div>
-      <!-- PINK BOX -->
-      <div class="bgpink">
-        <label class="label">Content</label>
-        <textarea
-          class="form-control"
-          name="postBody"
-          rows="5"
-          cols="30"
-          placeholder="Use '** **' for bold text, '//' for new line and '- ' for bullets!"
-        ></textarea>
+
+        <div class="up">
+          <label class="label">Content</label>
+          <textarea
+            class="form-control"
+            name="postBody"
+            rows="5"
+            cols="30"
+            placeholder="Use '** **' for bold text, '//' for new line and '- ' for bullets!"
+          ></textarea>
+        </div>
       </div>
     </div>
-    <button class="btn btn-warning btnx" type="submit" name="button">
+    <button class="btn btn-warning btnx shadow" type="submit" name="button">
       Publish
     </button>
   </form>

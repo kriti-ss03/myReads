@@ -11,21 +11,21 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <section class="title up">
-      <div class="bgpurple">
+    <section class="title cta">
+      <div class="bgpurple shadow">
         <h1>Login</h1>
       </div>
       <form class="" action="/compose" method="post">
         <div class="form-group">
           <!-- PINK BOX -->
-          <div class="bgpink">
+          <div class="bgpink shadow">
             <label for="email">Email</label>
             <input type="email" class="form-control" name="username" />
-          </div>
-          <!-- PINK BOX -->
-          <div class="bgpink">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" name="password" />
+
+            <div class="up">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" name="password" />
+            </div>
           </div>
         </div>
         <button class="btn btn-warning btnx" type="submit" name="button">
@@ -35,3 +35,4 @@
     </section>
   </body>
 </html>
+<%- include("partials/footer"); -%>
