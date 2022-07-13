@@ -1,0 +1,44 @@
+<%- include("partials/header"); -%>
+
+<section class="title up">
+  <div class="bgpurple shadow">
+    <h1>Update</h1>
+    <h3>
+      Your current data is removed! Kindly publish the blog again with or
+      without chnages!🪄📢
+    </h3>
+  </div>
+  <form class="" action="/compose" method="post">
+    <div class="form-group">
+      <!-- PINK BOX -->
+      <div class="bgpink shadow">
+        <label class="label">Title</label>
+        <input
+          class="form-control"
+          type="text"
+          name="postTitle"
+          placeholder="Book Name"
+          value="<%=kindatitle%>"
+        />
+
+        <div class="up">
+          <label class="label">Content</label>
+          <textarea
+            class="form-control"
+            name="postBody"
+            rows="5"
+            cols="30"
+            placeholder="Use '** **' for bold text, '//' for new line and '- ' for bullets!"
+          >
+<%- kindacontent%></textarea
+          >
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-warning btnx shadow" type="submit" name="button">
+      Publish
+    </button>
+  </form>
+</section>
+
+<%- include("partials/footer"); -%>

@@ -15,10 +15,11 @@
       <div class="bgpurple shadow">
         <h1>Login</h1>
       </div>
-      <form class="" action="/compose" method="post">
-        <div class="form-group">
-          <!-- PINK BOX -->
-          <div class="bgpink shadow">
+
+      <div class="form-group">
+        <!-- PINK BOX -->
+        <div class="bgpink shadow">
+          <form class="" action="/login" method="post">
             <label for="email">Email</label>
             <input type="email" class="form-control" name="username" />
 
@@ -26,13 +27,28 @@
               <label for="password">Password</label>
               <input type="password" class="form-control" name="password" />
             </div>
-          </div>
+            <!-- BUTTION -->
+            <div class="up">
+              <button class="btn btn-warning btnx" type="submit" name="button">
+                Login
+              </button>
+            </div>
+          </form>
+          <!-- GOOGLE -->
+          <hr style="border-top: 1px solid rgb(64, 64, 64)" />
+
+          <button
+            class="btn btn-lg btn-block btn-danger btnx"
+            onclick="location.href='/auth/google'"
+            style="background-color: #b93737"
+            type="submit"
+          >
+            <i class="fa-brands fa-google"></i> Continue with google
+          </button>
         </div>
-        <button class="btn btn-warning btnx" type="submit" name="button">
-          Login
-        </button>
-      </form>
+      </div>
     </section>
   </body>
 </html>
+
 <%- include("partials/footer"); -%>

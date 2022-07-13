@@ -13,7 +13,7 @@
       <% post.content=post.content.replaceAll('**', ' '); %>
       <p>
         <%=post.content.substring(0, 400) + " ..."%>
-        <a href="/posts/<%=post._id%>">Read More</a>
+        <a href="/posts/<%=user%>/<%=post._id%>">Read More</a>
       </p>
     </div>
     <% }) %>

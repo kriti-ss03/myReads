@@ -1,10 +1,8 @@
 <%- include("partials/header"); -%>
 <section class="title">
 
- 
-
-  <form action="/deleteblog" method="post">
-
+  <form action="/updateblog" method="post">
+  
   <div class="bgpurple row shadow">
     <!-- <div class="row"> -->
     <div class="col-lg-10 align-self-bottom" style="margin-top:100px;">
@@ -36,19 +34,23 @@
    <% }%>
  <% } %>
 
-    <p><%- content %></p>
+    <p id="bookContent"><%- content %></p>
   </div>
-  
+<!-- DOM WON'T WORK ON SERVER SO USING HIDDEN ELEMENT FOR DATA -->
+  <input type="hidden" name="reqbooktitle" value="<%=title %>" placeholder="status" />
+  <input type="hidden" name="reqbookcontent" value="<%-content %>" placeholder="status" />
+ <button class="btn btn-lg btn-warning btn-front"  name="updbtn" value="<%= bookId %>">
+      Update
+    </button>
+  </form> 
+  <form action="/deleteblog" method="post">
   <input type="hidden" name="flag" id="check" placeholder="status" />
-
    <button class="btn btn-lg btn-warning btn-front" onClick="sure()" name="blogbtn" value="<%= bookId %>">
       Delete
     </button>
-    
    </form>
  
-  
-   
+ 
 </section>
 
 <%- include("partials/footer"); -%>
@@ -66,4 +68,12 @@
 document.querySelector("#check").value = flag;
 }
 
+// function edit(){
+//   var content=document.querySelector("#bookContent");
+// content.setAttribute("contenteditable", true);
+// document.addEventListener("keypress",function(event){
+// if(event.key=="enter")
+//   console.log(content);
+// });
+// }
 </script>
