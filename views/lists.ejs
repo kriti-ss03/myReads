@@ -2,12 +2,13 @@
 
 <div class="bgpurple box" id="heading">
   <h1><%= listTitle %></h1>
+  <h4>Last Visited on <%= kindaday %></h4>
 </div>
 
 <!-- LIST ITEMS -->
 <div class="itembox shadow">
   <% kindaitems.forEach(function(givenitem){ %>
-  <form action="/delete" method="post">
+  <form action="/deleteitem" method="post">
     <div class="item">
       <input
         type="checkbox"

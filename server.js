@@ -19,8 +19,11 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-// let users = [];
+
 const homeContent = "Welcome to MyReads! Write gist of books you've read and keep track of learnings from the books. You can make list of books to read or maybe bookmark them and further compile your thoughts here to enhance your book reading and learning experience!<br/>Your personal blogs made from Compose section will be displayed here.";
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const d = new Date();
+
 
 app.use(session({
   secret: process.env.SECRET,
@@ -53,13 +56,13 @@ const itemsSchema = {
 
 const Item = mongoose.model("Item", itemsSchema);
 const item1 = new Item({
-    name: "Make your personal book list",
+    name: "Make your personal book related list",
 });
 const item2 = new Item({
     name: "Use checkbox and button to edit list",
 });
 const item3 = new Item({
-    name: "Make multiple list with different titles!",
+    name: "Get last updated detail at top!",
 });
 
 const defaultItems = [item1, item2, item3];
@@ -76,6 +79,7 @@ const profileSchema = new mongoose.Schema ({
   email: String,
   password: String,
   googleId: String,
+  lastday: String,
   blogs: [blogsSchema],
   //lists:[listsSchema]
   items:[itemsSchema]
@@ -142,6 +146,8 @@ app.get("/register", function (req, res) {
 
 
 app.get("/home", function (req, res) {
+  if (req.isAuthenticated()) {
+
   const user_id = req.user.id;
   //finding USER by session id created and tapping into BLOGS SCHEMA IN IT for HOME page rendering
   User.findOne({ _id: user_id }, function (err, foundResults) {
@@ -167,7 +173,11 @@ app.get("/home", function (req, res) {
           });
       }
     }
-    })
+  })
+      
+  } else {
+    res.redirect("/login");
+  }
 
 });
 
@@ -266,9 +276,9 @@ app.post("/compose", function (req, res) {
 
     User.findOne({ _id: user_id }, function (err, foundResults) {      
       foundResults.blogs.push(freshBlog);
-      console.log("COMPOSE DETAILS--->");
-      console.log(user_id);
-            console.log(foundResults);
+            // console.log("COMPOSE DETAILS--->");
+            // console.log(user_id);
+            // console.log(foundResults);
             foundResults.save();
              res.redirect("/home");
          
@@ -281,8 +291,8 @@ app.post('/deleteblog', function (req, res) {
   let blogId = req.body.blogbtn;
   let flag = req.body.flag;
 
-  console.log(userId);
-  console.log(blogId);
+  // console.log(userId);
+  // console.log(blogId);
 
     if (flag==="1") {
     
@@ -337,7 +347,8 @@ let userId = req.user.id;
 //-------------------------------GET ROUTE FROM LISTS---------------------
 app.get("/lists", function (req, res) {
     
-   const user_id = req.user.id;
+  const user_id = req.user.id;
+ 
   User.findOne({ _id: user_id }, function (err, foundResults) {
     if (err) {
       console.log(err);
@@ -351,9 +362,9 @@ app.get("/lists", function (req, res) {
         foundResults.items.push(item3);
         foundResults.save();
         res.redirect("/lists");
-      } else {
+      } else {        
         res.render("lists",
-          { listTitle: "To Read", kindaitems: foundResults.items }
+          { listTitle: "To Read", kindaitems: foundResults.items, kindaday: foundResults.lastday }
         );
       }
     }
@@ -361,27 +372,78 @@ app.get("/lists", function (req, res) {
 
 });
 
-app.get("/home", function (req, res) {
-  const user_id = req.user.id;
-  //finding USER by session id created and tapping into BLOGS SCHEMA IN IT for HOME page rendering
-  User.findOne({ _id: user_id }, function (err, foundResults) {
-      
+//-------------------------------POST 'N' DELETE ROUTE FROM LISTS---------------------
+
+app.post("/lists", function (req, res) {
   
-    if (err) {
-      console.log(err);
-    } else {
-      res.render("home",
-        {
-          startingContent: homeContent,
-          posts: foundResults.blogs,
-          user: foundResults._id
-        });
+     const user_id = req.user.id;
+    const itemName = req.body.item;
+    //const listName = req.body.btn_list;
+  
+  //Updating last visited Day
+  const day = d.getDate() + " " + months[d.getMonth()] + ", " + d.getFullYear();
+
+  // This function has 4 parameters i.e.filter, update, options, callback
+  User.updateOne({ _id: user_id }, 
+    {lastday: day}, function (err, docs) {
+    if (err){
+        console.log(err)
     }
+    else{
+        console.log("Updated Docs : ", docs);
+    }
+});
+  
+    
+    //CREATING NEW DOC AND SAVING IT--USING .save() AS SHORTCUT OF insertMany()
+    const freshitem = new Item({
+        name: itemName
+    });
+
+  User.findOne({ _id: user_id }, function (err, foundResults) {      
+    foundResults.items.push(freshitem);
+  
+            foundResults.save();
+             res.redirect("/lists");
+         
     })
 
 });
 
+app.post('/deleteitem', function (req, res) {
+  let userId = req.user.id;
+  let chItemId = req.body.checkbox;
+  // let currList = req.body.currlistName;
+  
+//Updating last visited Day
+  const day = d.getDate() + " " + months[d.getMonth()] + ", " + d.getFullYear();
 
+  User.updateOne({ _id: userId }, 
+    {lastday: day}, function (err, docs) {
+    if (err){
+        console.log(err)
+    }
+    else{
+        console.log("Updated Docs : ", docs);
+    }
+});
+
+    User.updateOne({ _id: userId }, {
+        $pull: {
+          items: { _id: chItemId }
+        }
+      },{ safe: true },
+        function removeConnectionsCB(err, obj){
+          if (!err) {
+             //console.log(obj);
+            res.redirect("/lists");
+          }
+        else
+          console.log(err);
+    }
+      );    
+    
+});
 
 
 
