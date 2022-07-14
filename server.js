@@ -33,6 +33,7 @@ app.use(passport.session());
 
 mongoose.connect("mongodb://localhost:27017/readifyDB", { useNewUrlParser: true });
 
+//BLOGS
 const blogsSchema = {
   title: String,
   content: String
@@ -44,12 +45,40 @@ const defaultBlog = new Blog({
     content:"Create, Style and Delete your own book review",
 });
 
+
+//------------------ITEMS N LISTS MODEL----------------
+const itemsSchema = {
+    name: String
+}
+
+const Item = mongoose.model("Item", itemsSchema);
+const item1 = new Item({
+    name: "Make your personal book list",
+});
+const item2 = new Item({
+    name: "Use checkbox and button to edit list",
+});
+const item3 = new Item({
+    name: "Make multiple list with different titles!",
+});
+
+const defaultItems = [item1, item2, item3];
+
+// const listsSchema = {
+//     name: String,
+//     items: [itemsSchema]
+// };
+
+// const List = mongoose.model("List", listsSchema);
+
+// ------------------------------------USER SCHEMA---------------------------
 const profileSchema = new mongoose.Schema ({
   email: String,
   password: String,
   googleId: String,
-  blogs: [blogsSchema]
-
+  blogs: [blogsSchema],
+  //lists:[listsSchema]
+  items:[itemsSchema]
 });
 
 
@@ -123,12 +152,20 @@ app.get("/home", function (req, res) {
     if (err) {
       console.log(err);
     } else {
-      res.render("home",
-        {
-          startingContent: homeContent,
-          posts: foundResults.blogs,
-          user: foundResults._id
-        });
+      if (foundResults.blogs.length == 0) {
+        //adding default blog
+      foundResults.blogs.push(defaultBlog);
+      foundResults.save();
+        res.redirect("/home")
+
+      } else {
+        res.render("home",
+          {
+            startingContent: homeContent,
+            posts: foundResults.blogs,
+            user: foundResults._id
+          });
+      }
     }
     })
 
@@ -280,7 +317,7 @@ let userId = req.user.id;
 //   console.log(blogId);
 // console.log(content);
   User.updateOne({ _id: userId }, {
-        $pull: {
+        $pull: {  //pull-> removes element from array
           blogs: { _id: blogId }
         }
       },{ safe: true },
@@ -295,6 +332,59 @@ let userId = req.user.id;
       );
 
 });
+
+
+//-------------------------------GET ROUTE FROM LISTS---------------------
+app.get("/lists", function (req, res) {
+    
+   const user_id = req.user.id;
+  User.findOne({ _id: user_id }, function (err, foundResults) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(foundResults);
+    
+      if (foundResults.items.length == 0) {
+        //adding default blog
+        foundResults.items.push(item1);
+        foundResults.items.push(item2);
+        foundResults.items.push(item3);
+        foundResults.save();
+        res.redirect("/lists");
+      } else {
+        res.render("lists",
+          { listTitle: "To Read", kindaitems: foundResults.items }
+        );
+      }
+    }
+  });
+
+});
+
+app.get("/home", function (req, res) {
+  const user_id = req.user.id;
+  //finding USER by session id created and tapping into BLOGS SCHEMA IN IT for HOME page rendering
+  User.findOne({ _id: user_id }, function (err, foundResults) {
+      
+  
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("home",
+        {
+          startingContent: homeContent,
+          posts: foundResults.blogs,
+          user: foundResults._id
+        });
+    }
+    })
+
+});
+
+
+
+
+
 
 app.listen(3000, function() {
   console.log("Server started on port 3000");
