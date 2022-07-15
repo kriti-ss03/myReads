@@ -123,10 +123,14 @@ passport.deserializeUser(function(id, done) {
 });
 
 //FROM PASSPORT OAUTH 2.0------------------------------------------------------ONLY FOR GOOGLE AUTH-------------------------------------------
+
+// https://infinite-citadel-00171.herokuapp.com/auth/google/reads
+// http://localhost:3000/auth/google/reads
+
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/reads",
+    callbackURL: "https://infinite-citadel-00171.herokuapp.com/auth/google/reads",
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo" //getting info from googleapi rather than google+ acct
   },
   function(accessToken, refreshToken, profile, cb) {
