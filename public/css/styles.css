@@ -207,6 +207,15 @@ background-color: #D98F68;
     margin-right:2%;
     margin-top: 3%;
 }
+.btn-post {
+    background-color: #D98F68;
+    border-width: 0;
+    display:inline-block;
+    margin-right: 2%;
+    margin-top: 2%;
+    display: inline-block;
+        margin-right: 20px;
+}
 #ft-img {
     /* padding: 80px 0 0 0; */
     width: 80%;

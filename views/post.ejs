@@ -1,7 +1,7 @@
 <%- include("partials/header"); -%>
 <section class="title">
 
-  <form action="/updateblog" method="post">
+  
   
   <div class="bgpurple row shadow">
     <!-- <div class="row"> -->
@@ -37,20 +37,32 @@
     <p id="bookContent"><%- content %></p>
   </div>
 <!-- DOM WON'T WORK ON SERVER SO USING HIDDEN ELEMENT FOR DATA -->
-  <input type="hidden" name="reqbooktitle" value="<%=title %>" placeholder="status" />
+<div class="up">
+<form action="/updateblog" method="post" style="display: inline-block;" >  
+<input type="hidden" name="reqbooktitle" value="<%=title %>" placeholder="status" />
   <input type="hidden" name="reqbookcontent" value="<%-content %>" placeholder="status" />
- <button class="btn btn-lg btn-warning btn-front"  name="updbtn" value="<%= bookId %>">
+ <button class="btn btn-warning shadow btn-post"  name="updbtn" value="<%= bookId %>">
       Update
     </button>
   </form> 
-  <form action="/deleteblog" method="post">
+
+     <!-- ------------------------------------DELETE--------------------------------------- -->
+  <form action="/deleteblog" method="post" style="display: inline-block;">
   <input type="hidden" name="flag" id="check" placeholder="status" />
-   <button class="btn btn-lg btn-warning btn-front" onClick="sure()" name="blogbtn" value="<%= bookId %>">
+   <button class="btn btn-warning shadow btn-post" onClick="sure()" name="blogbtn" value="<%= bookId %>">
       Delete
     </button>
    </form>
  
- 
+   <!-- ------------------------------------SHARE--------------------------------------- -->
+  <form action="/share" method="post" style="display: inline-block;">
+ <input type="hidden" name="posttitle" value="<%=title %>" placeholder="status" />
+  <input type="hidden" name="postcontent" value="<%-content %>" placeholder="status" />
+   <button class="btn btn-warning shadow btn-post" name="sharebtn" value="<%= bookId %>">
+      Share
+    </button>
+   </form>
+ </div>
 </section>
 
 <%- include("partials/footer"); -%>

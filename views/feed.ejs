@@ -1,0 +1,31 @@
+<%- include("partials/header"); -%>
+<body>
+  <section class="title">
+    <div class="bgpurple shadow">
+      <h1>Feed.</h1>
+      <p>
+        Find book reviews that are shared by other users and know others'
+        perspective about the book. Wishing you an insightful read ahead!✨
+      </p>
+    </div>
+
+    <% usersWithSharedpost.forEach(function(user){ %> <%
+    user.shares.forEach(function(post){ %>
+
+    <div class="bgpink row shadow">
+      <div class="col-lg-6 align-self-bottom">
+        <h1><%= post.title%></h1>
+      </div>
+      <div class="col-lg-6 align-self-bottom" style="padding-left: 550px">
+        <h1></h1>
+      </div>
+    </div>
+
+    <div class="bgpink shadow">
+      <p><%- post.content%></p>
+    </div>
+    <% }) %> <% }) %>
+  </section>
+</body>
+
+<%- include("partials/footer"); -%>
