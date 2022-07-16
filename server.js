@@ -24,7 +24,7 @@ const homeContent = "Welcome to MyReads! Write gist of books you've read and kee
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const d = new Date();
 
-// app.set("trust proxy", 1);
+app.set("trust proxy", 1);
 
 app.use(session({
   secret: process.env.SECRET,
@@ -33,7 +33,7 @@ app.use(session({
   // cookie: {
   //   sameSite: "none",
   //   secure: true,
-  //   macAge: 1000*60*60*24*7 //one week
+  //   // maxAge: 1000*60*60*24*7 //one week
   // }
 }));
 
