@@ -29,12 +29,12 @@ app.set("trust proxy", 1);
 app.use(session({
   secret: process.env.SECRET,
   resave: false,
-  saveUninitialized: false
-  // cookie: {
-  //   sameSite: "none",
-  //   secure: true,
-  //   // maxAge: 1000*60*60*24*7 //one week
-  // }
+  saveUninitialized: false,
+  cookie: {
+    sameSite: "none",
+    secure: true,
+    maxAge: 1000*60*60*24*7 //one week
+  }
 }));
 
 app.use(passport.initialize());
@@ -186,9 +186,9 @@ app.get("/home", function (req, res) {
   const user_id = req.user.id;
   //finding USER by session id created and tapping into BLOGS SCHEMA IN IT for HOME page rendering
   User.findOne({ _id: user_id }, function (err, foundResults) {
-    // console.log("GET REQ KE FOUNDRESULT"); 
-    // console.log(user_id);
-    // console.log(foundResults);     
+     console.log("GET REQ KE FOUNDRESULT"); 
+    console.log(user_id);
+    console.log(foundResults);     
   
     if (err) {
       console.log(err);
