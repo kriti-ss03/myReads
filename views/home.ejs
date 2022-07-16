@@ -12,7 +12,7 @@
       <!-- As entire conetnt is not visible so split length will vary so to ease out -->
       <% post.content=post.content.replaceAll('**', ' '); %>
       <p>
-        <%=post.content.substring(0, 400) + " ..."%>
+        <%- post.content.substring(0, 400) + " ..."%>
         <a href="/posts/<%=user%>/<%=post._id%>">Read More</a>
       </p>
     </div>
