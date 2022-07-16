@@ -24,11 +24,17 @@ const homeContent = "Welcome to MyReads! Write gist of books you've read and kee
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const d = new Date();
 
+// app.set("trust proxy", 1);
 
 app.use(session({
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false
+  // cookie: {
+  //   sameSite: "none",
+  //   secure: true,
+  //   macAge: 1000*60*60*24*7 //one week
+  // }
 }));
 
 app.use(passport.initialize());
@@ -130,7 +136,7 @@ passport.deserializeUser(function(id, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "https://infinite-citadel-00171.herokuapp.com/auth/google/reads",
+    callbackURL: "/auth/google/reads",
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo" //getting info from googleapi rather than google+ acct
   },
   function(accessToken, refreshToken, profile, cb) {
