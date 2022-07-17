@@ -6,7 +6,8 @@
       <p><%- startingContent %></p>
     </div>
 
-    <% posts.forEach(function(post){ %>
+    <% posts.forEach(function(post){ %> <% console.log("POST DETAILS-->"); %> <%
+    console.log(post); %>
     <div class="bgpink shadow">
       <h1><%=post.title%></h1>
       <!-- As entire conetnt is not visible so split length will vary so to ease out -->
